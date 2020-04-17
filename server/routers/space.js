@@ -1,17 +1,7 @@
 let Router = require('koa-router');
 let router = new Router();
-let {getUser} = require('../libs/common');
-
-router.all('*',async (ctx,next)=>{
-    let {'x-token':token} = ctx.header;
-    if(getUser(token)){
-        await next();
-    } else{
-        ctx.body = {ok:false,msg:'用户尚未登录'};
-    }
-})
-router.get('/test',async ctx =>{
-    ctx.body = {ok:true, msg:'test'};
+router.get('/test', async ctx => {
+    ctx.body = { ok: true, msg: '这是一条来自后端的数据,需要登录认证权限才能获取' };
 })
 
 module.exports = router.routes();

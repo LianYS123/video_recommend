@@ -6,6 +6,7 @@ module.exports = {
     DB_PASS: 'tb1766318380',
     DB_PORT: 3306,
     DB_NAME: 'video_recommend',
+    // DB_NAME: 'test',
     DB_HOST: 'localhost',
 
     //
@@ -16,5 +17,7 @@ module.exports = {
     PATH_UPLOAD: path.resolve(__dirname, 'upload'),
     PATH_NOTICE: path.resolve(__dirname, 'log/notice.log'),
 
-    suffix:'aasfdsflksdfkdsf'
+    suffix:'aasfdsflksdfkdsf',
+    secret: 'aaaaaaaaaaaaaaaaaaadsfasdfa',
+    privateKey: '123456'
 }

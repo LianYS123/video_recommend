@@ -27,9 +27,14 @@ server.use(async (ctx,next) => {
             ctx.status = 400;
             ctx.body = {ok: false, msg: e};
         } else {
-            ctx.status = 500;
-            ctx.body = {ok: false, msg: 'Interval server error'};
-            notice(e);
+            if(e.status !== 401){
+                ctx.status = 500;
+                ctx.body = {ok: false, msg: 'Interval server error'};
+                notice(e);
+            } else {
+                ctx.status = 401;
+                ctx.body = {ok:false, msg: 'Authentication Error'};
+            }
         }
     }
 })

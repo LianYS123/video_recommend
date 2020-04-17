@@ -3,22 +3,21 @@
 		<div class="login-container">
 			<form action class="form-login">
 				<ul class="login-nav">
-					<li class="login-nav__item active">
-						<a href="#">Sign In</a>
+					<li :class="$route.params.type === 'login' ? 'login-nav__item active' : 'login-nav__item'">
+						<router-link to="/home/user/login">Sign In</router-link>
 					</li>
-					<li class="login-nav__item">
-						<a href="#">Sign Up</a>
+					<li :class="$route.params.type === 'register' ? 'login-nav__item active' : 'login-nav__item'">
+						<router-link to="/home/user/register">Sign Up</router-link>
 					</li>
 				</ul>
 				<label for="login-input-user" class="login__label">Username</label>
-				<input id="login-input-user" class="login__input" type="text" />
+				<input id="login-input-user" v-model="username" class="login__input" type="text" />
 				<label for="login-input-password" class="login__label">Password</label>
-				<input id="login-input-password" class="login__input" type="password" />
-				<label for="login-sign-up" class="login__label--checkbox">
-					<input id="login-sign-up" type="checkbox" class="login__input--checkbox" />
-					Keep me Signed in
-				</label>
-				<button class="login__submit" disabled>Sign in</button>
+				<input id="login-input-password" v-model="password" class="login__input" type="password" />
+				<button
+					class="login__submit"
+					@click.prevent="submit"
+				>{{submitMessage}}</button>
 			</form>
 			<a href="#" class="login__forgot">Forgot Password?</a>
 		</div>
@@ -26,7 +25,91 @@
 </template>
 
 <script>
-	export default {};
+	import { mapActions } from "vuex";
+	export default {
+		data() {
+			return {
+				username: "",
+				password: "",
+				submitMessage: ''
+			};
+		},
+		updated(){
+			this.setMessage();
+		},
+		methods: {
+			...mapActions(["login", "register"]),
+			setMessage(){
+				this.submitMessage = this.$route.params.type === 'login' ? 'Sign In' : 'Sign Up';
+			},
+			signIn() {
+				let { username, password } = this;
+				if (!username || !password) {
+					alert("invalid username or password");
+				} else {
+					this.submitMessage = '登陆中...';
+					this.login({ username, password })
+						.then(data => {
+							this.setMessage();
+							if(!data) return data;
+							if (data.ok) {
+								alert("登陆成功");
+								let { redirect } = this.$route.query;
+								if (redirect) {
+									this.$router.push(redirect);
+								} else {
+									this.$router.push("/home/space");
+								}
+							} else {
+								alert("登录失败:" + data.msg);
+							}
+						})
+						.catch(err => {
+							this.setMessage();
+							console.log(err);
+							alert("登陆失败");
+						});
+				}
+			},
+			signUp() {
+				let { username, password } = this;
+				if (!username || !password) {
+					alert("invalid username or password");
+				} else {
+					this.submitMessage = '登陆中...';
+					this.register({ username, password })
+						.then(data => {
+							this.setMessage();
+							console.log(data);
+							let { ok } = data;
+							if (ok) {
+								alert("注册成功");
+								let { redirect } = this.$route.query;
+								if (redirect) {
+									this.$router.push(redirect);
+								} else {
+									this.$router.push("/home/space");
+								}
+							} else {
+								alert("注册失败" + data.msg);
+							}
+						})
+						.catch(err => {
+							this.setMessage();
+							console.log(err);
+							alert("注册失败，请检查网络");
+						});
+				}
+			},
+			submit() {
+				if (this.$route.params.type === "login") {
+					this.signIn();
+				} else {
+					this.signUp();
+				}
+			}
+		}
+	};
 </script>
 
 <style scoped>

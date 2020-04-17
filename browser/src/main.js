@@ -12,9 +12,11 @@ import {baseURL} from './config'
 Vue.prototype.baseURL = baseURL;
 Vue.config.productionTip = false
 
-new Vue({
+const vm = new Vue({
   router,
   store,
   components: { App },
   render: h => h(App),
 }).$mount('#app')
+
+export default vm;

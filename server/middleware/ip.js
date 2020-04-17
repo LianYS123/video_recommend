@@ -15,10 +15,10 @@ module.exports = async (ctx,next) => {
         let time = new Date();
         let info = {
             ip,
-            city: location ? '无法解析' : location.city,
+            city: location ? location.city : '无法解析',
             time: `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`
         };
-        fs.appendFile(pathlib.resolve(__dirname,'../log/visit.log'),JSON.stringify(info), err => {
+        fs.appendFile(pathlib.resolve(__dirname,'../log/visit.log'),JSON.stringify(info)+'\n', err => {
             if(err){
                 console.log(err);
             }

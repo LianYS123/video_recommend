@@ -14,7 +14,7 @@
 						</a>
 						<ul class="pure-menu-children" style="top: 70px; left: 0px;">
 							<li class="mm_inc">
-								<a href="javascript:" @click="notOpen">热门电影</a>
+								<router-link to="/home/space">个人空间</router-link>
 							</li>
 							<li class="mm_inc">
 								<router-link to="/home/article">热门文章</router-link>
@@ -22,15 +22,27 @@
 							<li class="mm_inc">
 								<a href="javascript:" @click="notOpen">热门搜索</a>
 							</li>
-							<li class="mm_inc mm_sep">
+							<li class="mm_inc">
 								<a href="javascript:" @click="notOpen">历史记录</a>
+							</li>
+							<li class="mm_inc mm_sep" v-if="isLogin">
+								<a href="javascript:" @click="handlerLogout">退出登录</a>
 							</li>
 						</ul>
 					</li>
-					<li class="hide-xs hide-sm hide-md hide-lg mum_inc">
+					
+
+					<li v-if="isLogin" class="hide-xs hide-sm hide-md hide-lg mum_inc">
+						<router-link to="/home/space">个人空间</router-link>
+					</li>
+					<li v-else class="hide-xs hide-sm hide-md hide-lg mum_inc">
 						<a href="javascript:" @click="toLogin">登录</a>
 					</li>
-					<li class="hide-xs hide-sm hide-md mum_inc">
+
+					<li v-if="isLogin" class="hide-xs hide-sm hide-md mum_inc">
+						<router-link class="hide-lg hide-xl" to="/home/space">个人空间</router-link>
+					</li>
+					<li v-else class="hide-xs hide-sm hide-md mum_inc">
 						<a href="javascript:" class="hide-lg hide-xl" @click="toLogin">登录</a>
 						<a href="javascript:" class="hide-xs hide-sm hide-md pure-button" @click="toRegister">注册</a>
 					</li>
@@ -90,7 +102,7 @@
 </template>
 
 <script>
-	import { mapActions } from "vuex";
+	import { mapActions,mapState } from "vuex";
 	export default {
 		data() {
 			return {
@@ -100,7 +112,7 @@
 			};
 		},
 		methods: {
-			...mapActions(["loadMenu"]),
+			...mapActions(["loadMenu","logout"]),
 			notOpen(){
 				alert('该功能尚未完成');
 			},
@@ -119,7 +131,22 @@
 			},
 			toRegister() {
 				this.$router.push("/user/register");
+			},
+			handlerLogout(){
+				this.logout();
+				this.$router.push('/home/user/login')
 			}
+		},
+		computed: {
+			...mapState({
+				isLogin: state => state.user_store.isLogin
+			}),
+			// ...mapState({
+			// 	sort: state => state.menu_store.sort,
+			// 	desc: state => state.menu_store.desc,
+			// 	page: state => state.menu_store.page,
+			// 	cates: state => state.menu_store.cates
+			// })
 		}
 	};
 </script>

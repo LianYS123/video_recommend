@@ -6,7 +6,7 @@ import axios from "axios";
 
 const timeout = 1000 * 60;
 
-// import vm from "@/main"
+import vm from "@/main"
 // const AUTH_TOKEN = 'Bearer '+localStorage.getItem('token')
 // Full config:  https://github.com/axios/axios#request-config
 axios.defaults.baseURL = baseURL;
@@ -41,10 +41,10 @@ _axios.interceptors.response.use(
   },
   function (error) {
     //如果失败的状态码为401
-    console.log(error);
-    if(error.status === 401){
-      // vm.$store.dispatch('logout');  //退出登录
-      // vm.$router.push('/login'); //去登录页重新登录 
+    if(error.status === 401 || error.message.includes('401')){
+      // localStorage.removeItem('token');
+      vm.$store.dispatch('logout');  //退出登录
+      vm.$router.push('/home/user/login'); //去登录页重新登录 
     }
 
     return Promise.reject(error);
@@ -71,48 +71,3 @@ Plugin.install = function (Vue) {
 Vue.use(Plugin)
 
 export default Plugin;
-
-// let loadToken = async () => {
-//   let res = (await axios.get(`${baseURL}/user/token/`)).data;
-//   if (res.ok) {
-//     let token = res.token;
-//     localStorage.setItem('token', token);
-//     return token;
-//   } else {
-//     alert(res.msg);
-//     throw new Error(res.msg);
-//   }
-// }
-// let getToken = async () => {
-//   let token = localStorage.getItem('token');
-//   if (!/[a-z0-9]{32}/.test(token)) {
-//     token = await loadToken();
-//   }
-//   return token;
-// }
-
-// async function initToken() {
-//   let token = await getToken();
-//   instance = axios.create({
-//     baseURL,
-//     timeout,
-//     headers: {
-//       'x-token': token
-//     }
-//   });
-// }
-// initToken();
-
-// export async function resetToken() {
-//   let token = await loadToken();
-//   instance = axios.create({
-//     baseURL,
-//     timeout,
-//     headers: {
-//       'x-token': token
-//     }
-//   });
-// }
-
-// export default getAxios;
-// export default instance;

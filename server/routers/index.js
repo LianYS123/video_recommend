@@ -1,11 +1,11 @@
 const Router = require('koa-router');
 let router = new Router();
-
-router.options('*',ctx => {
-    ctx.body = {ok:true}
+let auth = require('../middleware/auth');
+router.options('*', ctx => {
+    ctx.body = { ok: true }
 })
-router.use('/api',  require('./api'));
+router.use('/api', require('./api'));
 router.use('/user', require('./user'));
-router.use('/space',require('./space'))
+router.use('/space', auth, require('./space'))
 
 module.exports = router.routes();

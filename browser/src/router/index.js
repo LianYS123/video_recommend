@@ -24,7 +24,19 @@ let router = new Router({
   ]
 })
 // 路由变化跳转页面回到顶部
+router.beforeEach((to,from,next) => {
+  if (to.meta && to.meta.auth) {
+    let token = localStorage.getItem('token');
+    if (token) {
+      next();
+    } else {
+      next({ path: '/home/user/login', query: { redirect: to.path } });
+    }
+  } else {
+    next();
+  }
+})
 router.afterEach((to,from,next) => {
   window.scrollTo(0,0);
 })
-export default router
+export default router;

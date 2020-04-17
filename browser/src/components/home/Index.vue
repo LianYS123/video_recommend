@@ -41,6 +41,11 @@ export const router = [
     component: Acticle
   },
   {
+    path:'space',
+    component:Space,
+    meta:{auth: true}
+  },
+  {
     path:"user/:type",
     component: User
   },
@@ -48,17 +53,12 @@ export const router = [
     path: ":page", //不要加/(斜杠)
     component: ListPage
   },
+  
   {
     path: "", //不要加/(斜杠)
     component: IndexPage
   },
-  {
-    path:'space',
-    component:Space,
-    beforeEnter(from,to,next){
-      next();
-    }
-  }
+  
 ];
 </script>
 
