@@ -1,64 +1,75 @@
 <template>
-	<header v-if="userInfo">
-		<div class="navWrapper" id="home">
-			<div class="clearfix">
-				<h2 class="companyName">{{userInfo.username}}的个人主页</h2>
-				<nav class="mainNav clearfix">
-					<ul>
-						<li>
-							<a href="#">主页</a>
-						</li>
-						<li>
-							<a href="#" class="smoothScroll">动态</a>
-						</li>
-						<li>
-							<a href="#" class="smoothScroll">收藏</a>
-						</li>
-						<li>
-							<a href="#" class="smoothScroll">设置</a>
-						</li>
-					</ul>
-				</nav>
+	<div>
+		<header v-if="userInfo">
+			<div class="navWrapper" id="home">
+				<div class="clearfix">
+					<h2 class="companyName">{{userInfo.username}}的个人主页</h2>
+					<nav class="mainNav clearfix">
+						<ul>
+							<li>
+								<a href="#">主页</a>
+							</li>
+							<li>
+								<a href="#" class="smoothScroll">动态</a>
+							</li>
+							<li>
+								<a href="#" class="smoothScroll">收藏</a>
+							</li>
+							<li>
+								<a href="#" class="smoothScroll">设置</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
 			</div>
-		</div>
 
-		<section class="hero">
-			<div class="innerWrapper">
-				<h1>欢迎来到{{userInfo.username}}的个人空间</h1>
-				<h3>{{msg}}</h3>
-			</div>
-		</section>
-	</header>
+			<section class="hero">
+				<div class="innerWrapper">
+					<h1>欢迎来到{{userInfo.username}}的个人空间</h1>
+					<h3>{{msg}}</h3>
+				</div>
+			</section>
+		</header>
+		<p v-else>loading</p>
+	</div>
 </template>
 
 <script>
-import {mapState} from 'vuex';
+	import { mapState } from "vuex";
 	export default {
-        data(){
-            return {
-				msg: ''
-            }
-        },
-        mounted() {
-            if(!this.userInfo){
-                this.$router.push('/home/user/login');
-            } else {
+		data() {
+			return {
+				msg: ""
+			};
+		},
+		mounted() {
+			if (!this.userInfo) {
+				this.$store.dispatch("initUser").catch(err => {
+					this.$router.push("/home/user/login");
+				});
+			} else {
 				document.title = this.userInfo.username + "的个人主页";
-				this.$axios.get('space/test').then(({data}) => {
-					if(data.ok){
+				this.$axios.get("space/test").then(({ data }) => {
+					if (data.ok) {
 						this.msg = data.msg;
 					} else {
 						alert(data.msg);
 					}
-				})
-            }
-        },
-        computed: {
-            ...mapState({
-                userInfo: state => state.user_store.userInfo
-            })
-        },
-    };
+				});
+				this.$axios.get("user/info").then(({ data }) => {
+					console.log(data);
+				});
+			}
+		},
+		destroyed() {
+			document.title = "影视推荐系统";
+		},
+		computed: {
+			...mapState({
+				userInfo: state => state.user_store.userInfo
+			})
+		}
+	};
 </script>
 
 <style scoped>

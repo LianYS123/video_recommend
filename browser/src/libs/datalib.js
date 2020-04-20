@@ -42,11 +42,9 @@ _axios.interceptors.response.use(
   function (error) {
     //如果失败的状态码为401
     if(error.status === 401 || error.message.includes('401')){
-      // localStorage.removeItem('token');
       vm.$store.dispatch('logout');  //退出登录
-      vm.$router.push('/home/user/login'); //去登录页重新登录 
+      // vm.$router.push('/home/user/login'); //去登录页重新登录 
     }
-
     return Promise.reject(error);
   }
 );
@@ -70,4 +68,4 @@ Plugin.install = function (Vue) {
 
 Vue.use(Plugin)
 
-export default Plugin;
+export default _axios;

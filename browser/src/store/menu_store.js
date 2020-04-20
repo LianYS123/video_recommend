@@ -1,6 +1,6 @@
 import { cateValues } from '../config'
 import qs from 'querystring'
-import axios from 'axios'
+import axios from '@/libs/datalib';
 let lastUrl = '';
 
 const initCates = {};

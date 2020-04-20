@@ -4,115 +4,98 @@
 			<form action class="form-login">
 				<ul class="login-nav">
 					<li :class="$route.params.type === 'login' ? 'login-nav__item active' : 'login-nav__item'">
-						<router-link to="/home/user/login">Sign In</router-link>
+						<router-link to="/home/user/login">登录</router-link>
 					</li>
 					<li :class="$route.params.type === 'register' ? 'login-nav__item active' : 'login-nav__item'">
-						<router-link to="/home/user/register">Sign Up</router-link>
+						<router-link to="/home/user/register">注册</router-link>
 					</li>
 				</ul>
-				<label for="login-input-user" class="login__label">Username</label>
+				<label for="login-input-user" class="login__label">用户名</label>
 				<input id="login-input-user" v-model="username" class="login__input" type="text" />
-				<label for="login-input-password" class="login__label">Password</label>
+				<label for="login-input-password" class="login__label">密码</label>
 				<input id="login-input-password" v-model="password" class="login__input" type="password" />
-				<button
-					class="login__submit"
-					@click.prevent="submit"
-				>{{submitMessage}}</button>
+				<button v-if="!isLoading" class="login__submit" @click.prevent="submit">{{submitMessage}}</button>
+				<button v-else class="login__submit loading" @click.prevent>loading...</button>
 			</form>
-			<a href="#" class="login__forgot">Forgot Password?</a>
+			<a href="#" class="login__forgot">忘记密码?</a>
 		</div>
 	</div>
 </template>
 
 <script>
 	import { mapActions } from "vuex";
+	let timer = null;
 	export default {
 		data() {
 			return {
 				username: "",
 				password: "",
-				submitMessage: ''
+				submitMessage: "",
+				isLoading: false
 			};
 		},
-		updated(){
+		mounted() {
+			this.setMessage();
+		},
+		updated() {
 			this.setMessage();
 		},
 		methods: {
 			...mapActions(["login", "register"]),
-			setMessage(){
-				this.submitMessage = this.$route.params.type === 'login' ? 'Sign In' : 'Sign Up';
+			setMessage() {
+				this.submitMessage =
+					this.$route.params.type === "login" ? "登录" : "注册";
 			},
-			signIn() {
-				let { username, password } = this;
-				if (!username || !password) {
-					alert("invalid username or password");
-				} else {
-					this.submitMessage = '登陆中...';
-					this.login({ username, password })
-						.then(data => {
-							this.setMessage();
-							if(!data) return data;
-							if (data.ok) {
-								alert("登陆成功");
-								let { redirect } = this.$route.query;
-								if (redirect) {
-									this.$router.push(redirect);
-								} else {
-									this.$router.push("/home/space");
-								}
-							} else {
-								alert("登录失败:" + data.msg);
-							}
-						})
-						.catch(err => {
-							this.setMessage();
-							console.log(err);
-							alert("登陆失败");
-						});
+			loading() {
+				this.isLoading = true;
+				let timer = setTimeout(() => {
+					this.isLoading = false;
+				}, 1000 * 60);
+				return () => {
+					this.isLoading = false;
+					clearTimeout(timer);
 				}
 			},
-			signUp() {
-				let { username, password } = this;
-				if (!username || !password) {
-					alert("invalid username or password");
-				} else {
-					this.submitMessage = '登陆中...';
-					this.register({ username, password })
-						.then(data => {
-							this.setMessage();
-							console.log(data);
-							let { ok } = data;
-							if (ok) {
-								alert("注册成功");
-								let { redirect } = this.$route.query;
-								if (redirect) {
-									this.$router.push(redirect);
-								} else {
-									this.$router.push("/home/space");
-								}
-							} else {
-								alert("注册失败" + data.msg);
-							}
-						})
-						.catch(err => {
-							this.setMessage();
-							console.log(err);
-							alert("注册失败，请检查网络");
-						});
-				}
+			request(username,password) {
+				const done = this.loading();
+				let req =
+					this.$route.params.type === "login" ? this.login : this.register;
+				req({ username, password })
+					.then(data => {
+						done();
+						let { redirect } = this.$route.query;
+						if (redirect) {
+							this.$router.push(redirect);
+						} else {
+							this.$router.push("/home/space");
+						}
+					})
+					.catch(err => {
+						done();
+						console.log(err);
+						alert("网络出错了，请稍后重试");
+					});
 			},
 			submit() {
-				if (this.$route.params.type === "login") {
-					this.signIn();
-				} else {
-					this.signUp();
-				}
+				clearTimeout(timer);
+				timer = setTimeout(() => {
+					let { username, password } = this;
+					if (!username || !password) {
+						alert("用户名或密码无效");
+					} else {
+						this.request(username,password);
+					}
+				}, 100);
 			}
 		}
 	};
 </script>
 
 <style scoped>
+	.loading {
+		background-color: #ccc !important;
+		cursor: not-allowed !important;
+	}
 	.login {
 		background-color: #e9e9e9;
 		font-family: "Montserrat", sans-serif;
