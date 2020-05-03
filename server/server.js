@@ -1,11 +1,12 @@
 const Koa = require('koa');
 const koaStatic = require('koa-static');
 const body = require('koa-better-body');
-const {SERVER_PORT, PATH_STATIC, PATH_UPLOAD} = require('./config');
+const {SERVER_PORT, PATH_STATIC, PATH_UPLOAD, baseURL} = require('./config');
 const convert = require('koa-convert');
 const notice = require('./libs/notice');
 let server = new Koa();
 server.context.db = require('./libs/database');
+server.context.baseURL = baseURL;
 server.use(async (ctx,next) => {
     ctx.set({
         "Access-Control-Allow-Origin": "*",

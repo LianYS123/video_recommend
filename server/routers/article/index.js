@@ -44,7 +44,12 @@ router.get('/', async (ctx) => {
     let sql = `select ${fields.join(',')} from article where ${where} limit ?,?`;
     console.log(sql);
     let rows = await db.query(sql, [(page - 1) * page_size, page_size]);
-    let list = rows.map(item => ({ ...item, tags: item.tags ? item.tags.split('|') : [] }))
+    let list = rows.map(item => {
+        let {tags,img_name} = item;
+        tags = tags ? tags.split('|') : [];
+        const image_url = `${ctx.baseURL}imgs/article_images/${img_name[0]}/${img_name[1]}/${img_name.substring(2)}`;
+        return { ...item, tags, image_url };
+    })
     let total = (await ctx.db.getCount('article', where));
     ctx.body = {
         ok: true,

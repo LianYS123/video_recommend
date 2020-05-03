@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "cross-env NODE_ENV='development' node server.js",
+    "start": "cross-env NODE_ENV='production' node server.js",
+    "test": "cross-env NODE_ENV='production' node test"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,7 @@
     "co-mysql": "^1.0.0",
     "crawler": "^1.2.1",
     "crawler-lian": "^1.0.7",
+    "cross-env": "^7.0.2",
     "fs-extra": "^8.1.0",
     "jsdom": "^16.1.0",
     "koa": "^2.11.0",
