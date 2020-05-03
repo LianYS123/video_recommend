@@ -24,7 +24,6 @@
 			let cates = {};
 			const cateValues = this.$store.state.menu_store.cateValues;
 			cateValues.forEach(key => (cates[key] = this.$route.query[key]));
-			console.log(cates);
 			let { sort, desc } = this.$route.query,
 				page = this.$route.params.page;
 			await this.loadMenu({ page, cates, sort, desc });
@@ -43,8 +42,9 @@
 					});
 				}
 			},
-			handlerChange(opt) {
-				this.loadMenu({ cates: opt, sort: this.sort, desc: this.desc });
+			handlerChange(cates) {
+				const { sort, desc } = this;
+				this.loadMenu({ cates, sort, desc });
 				this.$router.push(`/home/1?${qs.stringify(this.cates)}`);
 			}
 		},

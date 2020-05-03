@@ -138,9 +138,6 @@
 						this.items = data.list.map(item => ({
 							...item,
 							like_count: item.like,
-							image_url: `${baseURL}/imgs/article_images/${item.img_name[0]}/${
-								item.img_name[1]
-							}/${item.img_name.substring(2)}`,
 							like: false,
 							dislike: false
 						}));

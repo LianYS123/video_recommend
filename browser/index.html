@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>影视推荐系统</title>
+  <title>影视推荐网站</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <!-- 列表页 -->
@@ -12,7 +12,7 @@
   <link rel="stylesheet"
     href="http://s1.hdslb.com/bfs/static/review/media/css/review-media.0.e619590223028e1d87a188297c12ab432a77bdf3.css">
     <!-- 结果页 -->
-  <link rel="stylesheet" href="http://localhost:8080/css/search_result.css">
+  <link rel="stylesheet" href=<%= process.env.NODE_ENV === 'development' ? "http://localhost:8080/css/search_result.css" : '/css/search_result.css' %>>
   <!-- 榜单页 -->
   <link rel="stylesheet" href="https://s1.hdslb.com/bfs/static/jinkela/rank/css/rank.0.2247ee7db55d793ebd67163d75b142f71381794a.css">
 </head>

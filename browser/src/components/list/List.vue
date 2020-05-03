@@ -14,13 +14,14 @@
 		</ul>
 		<ul class="bangumi-list clearfix" v-if="menu && menu.list.length > 0">
 			<li class="bangumi-item" v-for="(item) in menu.list" :key="item.media_id">
-				<a href="#" @click.prevent="toDetial(item.media_id)" target="_blank" class="cover-wrapper">
+				<router-link :to="`/single/media/${item.media_id}`" target="_blank" class="cover-wrapper">
 					<div class="common-lazy-img">
 						<img alt :src="`${baseURL}/imgs/${item.img_name}`" lazy="loaded" />
 					</div>
 					<div class="shadow">{{item.views|numFilter}}次播放</div>
-				</a>
-				<a href="#" @click.prevent="toDetial(item.media_id)" class="bangumi-title">{{item.title}}</a>
+				
+				</router-link>
+				<router-link :to="`/single/media/${item.media_id}`" class="bangumi-title">{{item.title}}</router-link>
 			</li>
 		</ul>
 		<ul class="bangumi-list clearfix no-data" v-else-if="menu">

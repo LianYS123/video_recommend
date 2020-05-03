@@ -67,7 +67,6 @@
 				category: state => state.menu_store.category
 			}),
 			option() {
-        console.log(this.category);
 				let data = [
 					{
 						name: "",
@@ -75,8 +74,8 @@
 					}
 				];
 				serie.data = data;
-        const option =  { series: [serie] };
-        return option;
+				const option = { series: [serie] };
+				return option;
 			}
 		},
 		methods: {
@@ -84,7 +83,7 @@
 			async fnClick(params) {
 				let { cate, value } = params.data;
 				if (cate) {
-					let cates = {[cate]: value };
+					let cates = { [cate]: value };
 					await this.loadMenu({ cates });
 					this.$router.push(`/home/1?${qs.stringify(cates)}`);
 				}

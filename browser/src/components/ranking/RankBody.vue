@@ -10,39 +10,40 @@
 			<ul class="rank-list pgc-list" v-if="rankItems">
 				<li
 					class="rank-item"
-					@click="toDetial(item.media_id)"
 					v-for="(item,index) in rankItems"
 					:key="item.media_id"
 				>
-					<div class="num">{{index+1}}</div>
-					<div class="content">
-						<div class="img">
-							<a href="javascript:">
-								<div class="lazy-img cover">
-									<img :alt="item.title" :src="`${baseURL}/imgs/${item.img_name}`" />
+					<router-link :to="`/single/media/${item.media_id}`">
+						<div class="num">{{index+1}}</div>
+						<div class="content">
+							<div class="img">
+								<a href="javascript:">
+									<div class="lazy-img cover">
+										<img :alt="item.title" :src="`${baseURL}/imgs/${item.img_name}`" />
+									</div>
+								</a>
+								<!---->
+							</div>
+							<div class="info">
+								<a href="javascript:" class="title">{{item.title}}</a>
+								<div class="pgc-info">{{item.time_length_show}}</div>
+								<div class="detail">
+									<span class="data-box">
+										<i class="b-icon play"></i>
+										{{item.views|numFilter}}
+									</span>
+									<span class="data-box">
+										<i class="fav"></i>
+										{{item.favorites|numFilter}}
+									</span>
 								</div>
-							</a>
+								<div class="pts">
+									<div>{{getScore(item)}}</div>综合得分
+								</div>
+							</div>
 							<!---->
 						</div>
-						<div class="info">
-							<a href="javascript:" class="title">{{item.title}}</a>
-							<div class="pgc-info">{{item.time_length_show}}</div>
-							<div class="detail">
-								<span class="data-box">
-									<i class="b-icon play"></i>
-									{{item.views|numFilter}}
-								</span>
-								<span class="data-box">
-									<i class="fav"></i>
-									{{item.favorites|numFilter}}
-								</span>
-							</div>
-							<div class="pts">
-								<div>{{getScore(item)}}</div>综合得分
-							</div>
-						</div>
-						<!---->
-					</div>
+					</router-link>
 				</li>
 			</ul>
 			<div class="no-data loading" v-else>加载中...</div>
@@ -51,7 +52,7 @@
 </template>
 
 <script>
-	import qs from 'querystring';
+	import qs from "querystring";
 	export default {
 		data() {
 			return {
@@ -67,11 +68,7 @@
 				sort: "ranking",
 				desc: "desc"
 			};
-			let res = (
-				await this.$axios.get(
-					`api/video?${qs.stringify(query)}`
-				)
-			).data;
+			let res = (await this.$axios.get(`api/video?${qs.stringify(query)}`)).data;
 			if (res.ok) {
 				this.rankItems = res.data.list.sort(
 					(a, b) => this.getScore(b) - this.getScore(a)

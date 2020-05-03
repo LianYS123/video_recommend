@@ -4,7 +4,7 @@ let lastUrl = '';
 export default {
     state: {
         menu: null,
-        cates: null,
+        cates: {},
         page: 1,
         pageSize: 20,
         sort: 'favorites',
@@ -36,12 +36,13 @@ export default {
     },
     actions: {
         //啥都不传加载原分类数据, cates不传重置分类,cates传空对象加载原分类数据, 传空对象{}加载第一页无分类数据
-        async loadMenu({ commit, state }, { page = 1, cates = state.initCates, sort = 'favorites', desc = 'desc' } = {}) {
+        async loadMenu({ commit, state }, { page = 1, cates={}, sort = 'favorites', desc = 'desc' } = {}) {
             commit("setParams", { cates, page, sort, desc });
             let pageSize;
             ({ sort, desc, page, pageSize } = state);
             let url = `api/video?${qs.stringify({ ...cates, sort, desc, page, pageSize })}`;
             if (lastUrl !== url) {
+                console.log(url);
                 commit('setMenu', null);
                 let res = (await axios.get(url)).data;
                 if (res.ok) {
