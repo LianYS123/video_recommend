@@ -64,6 +64,7 @@
 					.then(data => {
 						done();
 						let { redirect } = this.$route.query;
+						console.log(redirect);
 						if (redirect) {
 							this.$router.push(redirect);
 						} else {

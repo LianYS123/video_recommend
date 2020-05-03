@@ -2,7 +2,7 @@
   <div class="filter-wrapper" v-if="cates">
     <div class="filter-title">筛选</div>
     <div class="filter-list">
-      <div class="filter-block" v-for="(cate) in categroy" :key="cate.value">
+      <div class="filter-block" v-for="(cate) in category" :key="cate.value">
         <div class="filter-name">{{cate.name}}</div>
         <ul class="filter-item-wrapper free">
           <li
@@ -19,12 +19,15 @@
 </template>
 
 <script>
-import { categroy } from "@/config";
+import {mapState} from 'vuex';
 export default {
-  data() {
-    return {
-      categroy
-    };
+  computed: {
+    ...mapState({
+      category: state => state.menu_store.category
+    })
+  },
+  updated() {
+    console.log(this.cates);
   },
   methods: {
     change(opt) {

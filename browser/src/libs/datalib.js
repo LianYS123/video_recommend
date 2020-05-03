@@ -35,16 +35,27 @@ _axios.interceptors.request.use(
   }
 );
 
+
+
 _axios.interceptors.response.use(
   function (response) {
     return response;
   },
   function (error) {
     //如果失败的状态码为401
-    if(error.status === 401 || error.message.includes('401')){
+    let {status,data} = error.response;
+    console.log(data);
+    if(status === 401){
       vm.$store.dispatch('logout');  //退出登录
       // vm.$router.push('/home/user/login'); //去登录页重新登录 
+    } else {
+      if(data.msg){
+        vm.$message.error(data.msg);
+      } else{
+        vm.$message.error('请求出错，请稍后重试');
+      }
     }
+    
     return Promise.reject(error);
   }
 );

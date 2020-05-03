@@ -5,11 +5,14 @@
 </template>
 
 <script>
+// import '../static/css/pixabay.css'
+// import '../static/css/search_result.css'
 export default {
   name: "App",
-  mounted() {
+  created() {
+    this.$store.dispatch('init');
     this.$store.dispatch('initUser');
-  },
+  }
 };
 </script>
 

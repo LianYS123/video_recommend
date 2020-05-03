@@ -55,6 +55,37 @@ export default {
     color:black;
 }
 .search_form{
-    margin: 20px 100px 0 100px;
+    margin: 0 50px;
+}
+.media_search {
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #eee;
+}
+.media_search .loupe {
+    float: left;
+    width: 50px;
+    height: 55px;
+    border: 0;
+    background: url(~@/assets/sprites.svg), no-repeat;
+    background-position: 15px -83px;
+    opacity: .75;
+    transition: opacity .3s;
+}
+.media_search .q {
+    width: 100%;
+    margin: 0;
+    padding: 18px 0;
+    border: 0;
+    font: normal 16px 'Open Sans', sans-serif;
+}
+.popular_searches {
+    margin: 10px;
+    font-size: 14px;
+    opacity: .5;
+}
+.media_search>div>span {
+    display: block;
+    overflow: hidden;
 }
 </style>

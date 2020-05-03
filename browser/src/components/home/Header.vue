@@ -140,13 +140,7 @@
 		computed: {
 			...mapState({
 				isLogin: state => state.user_store.isLogin
-			}),
-			// ...mapState({
-			// 	sort: state => state.menu_store.sort,
-			// 	desc: state => state.menu_store.desc,
-			// 	page: state => state.menu_store.page,
-			// 	cates: state => state.menu_store.cates
-			// })
+			})
 		}
 	};
 </script>

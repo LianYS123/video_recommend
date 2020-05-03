@@ -34,7 +34,7 @@ db.select = async function (tableName, fields = ['*'], where = '1=1') {
 db.insert = async function (tableName, fields) {
     let keys = Object.keys(fields).filter(key => typeof fields[key] !== 'undefined');
     let values = keys.map(key => filter(fields[key]));
-    let sql = `insert into ${tableName} (${keys.join(',')}) values(${values.join(',')})`;
+    let sql = `insert into ${tableName} (${keys.map(key => `\`${key}\``).join(',')}) values(${values.join(',')})`;
     console.log(sql);
     return await db.query(sql);
 }

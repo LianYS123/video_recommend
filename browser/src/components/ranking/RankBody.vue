@@ -51,6 +51,7 @@
 </template>
 
 <script>
+	import qs from 'querystring';
 	export default {
 		data() {
 			return {
@@ -58,9 +59,18 @@
 			};
 		},
 		async created() {
-			let type = this.$route.query.type || '';
+			let type = this.$route.query.type || "";
+			const query = {
+				page: 1,
+				pageSize: 50,
+				type,
+				sort: "ranking",
+				desc: "desc"
+			};
 			let res = (
-				await this.$axios.get(`api/video/1/50?type=${type}&sort=ranking&desc=desc`)
+				await this.$axios.get(
+					`api/video?${qs.stringify(query)}`
+				)
 			).data;
 			if (res.ok) {
 				this.rankItems = res.data.list.sort(
@@ -82,7 +92,9 @@
 			},
 			getScore(item) {
 				let rate = (item.rating_score / 5) ** 5 || 0.8;
-				let score = parseInt((Math.sqrt(item.favorites * item.views) * rate)/100);
+				let score = parseInt(
+					(Math.sqrt(item.favorites * item.views) * rate) / 100
+				);
 				return score;
 			}
 		}

@@ -1,5 +1,5 @@
-const db = require('../libs/database');
-const {PATH_STATIC} = require('../config');
+const db = require('../../libs/database');
+const {PATH_STATIC} = require('../../config');
 const uuid = require('uuid/v4');
 const {notice,fetchFile} = require('./tools');
 const imgPath = PATH_STATIC + '/imgs/';

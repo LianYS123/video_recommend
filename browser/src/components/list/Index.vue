@@ -17,13 +17,14 @@
 
 	import { mapState, mapActions, mapGetters } from "vuex";
 	import qs from "querystring";
-	import { cateValues } from "@/config";
 	export default {
 		name: "ListPage",
 		components: { List, SideBar, Paging },
 		async mounted() {
 			let cates = {};
+			const cateValues = this.$store.state.menu_store.cateValues;
 			cateValues.forEach(key => (cates[key] = this.$route.query[key]));
+			console.log(cates);
 			let { sort, desc } = this.$route.query,
 				page = this.$route.params.page;
 			await this.loadMenu({ page, cates, sort, desc });

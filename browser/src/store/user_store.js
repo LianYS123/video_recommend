@@ -23,11 +23,7 @@ export default {
                     commit('login', userInfo);
                 }
                 return data;
-            }).catch(err => {
-                console.log(err);
-                localStorage.removeItem('token');
-                throw err;
-            });
+            })
         },
         register({ commit }, user) {
             return axios.post('user/reg', user).then(({ data }) => {
@@ -37,10 +33,6 @@ export default {
                     commit('login', userInfo);
                 }
                 return data;
-            }).catch(err => {
-                console.log(err);
-                localStorage.removeItem('token');
-                throw err;
             })
         },
         logout({ commit }) {
@@ -48,17 +40,17 @@ export default {
             commit('logout');
         },
         initUser({ commit, state, dispatch }) {
-            let info = state.userInfo;
-            if (!info) {
+            let { userInfo: info, isLogin } = state;
+            if (!info && isLogin) {
                 return axios.get('user/info').then(({ data }) => {
                     const { userInfo } = data;
                     commit('login', userInfo);
                 }).catch(err => {
-                    console.error(err);
-                    // dispatch('logout')
+                    let status = err.response.status;
+                    if (status === 401) {
+                        console.log('尚未登录', status);
+                    }
                 })
-            } else {
-                return Promise.resolve(info)
             }
         }
     }

@@ -1,9 +1,6 @@
-// const geo = require('geoip-lite');
-// let ip = '47.94.197.151';
-// console.log(geo.lookup(ip));
+const fse = require('fs-extra');
 
-let pro = Promise.reject('error');
-pro.catch(err => {
-    console.log(err);
-    throw err;
-}).catch(console.log);
+fse.ensureDir('./file').then(()=>{
+    fse.writeFile('./file/test.txt','hello');
+});
+

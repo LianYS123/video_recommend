@@ -10,7 +10,11 @@ export default {
   mounted() {
     this.$axios.get('space/test').then(({data}) => {
       console.log(data);
-    }).catch(console.log)
+    }).catch(err => {
+      if(err.response.status === 401){
+        this.$router.push('/user/login')
+      }
+    })
   },
   components:{
     UserInfo

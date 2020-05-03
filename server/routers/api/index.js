@@ -1,11 +1,18 @@
 const Router = require('koa-router');
-const { test,testAll } = require('../libs/validator');
+const { test, testAll } = require('../../libs/validator');
 let router = new Router();
 
-router.get('/video/search/:page/:pageSize/',async (ctx)=>{
-    let {keyword} = ctx.query;
+router.get('/video/category', async (ctx) => {
+    ctx.body = {
+        ok: true,
+        data: require('./category')
+    }
+})
+
+router.get('/video/search/:page/:pageSize/', async (ctx) => {
+    let { keyword } = ctx.query;
     let { page, pageSize } = ctx.params;
-    testAll({num:page,pageSize});
+    testAll({ num: page, pageSize });
     page = parseInt(page);
     pageSize = parseInt(pageSize);
 
@@ -37,37 +44,36 @@ router.get('/video/search/:page/:pageSize/',async (ctx)=>{
         }
     };
 })
-router.get('/video/:page/:pageSize/', async ctx => {
-    let { type, area:areas, style:styles, sort, desc} = ctx.query;
-    let { page, pageSize } = ctx.params;
-    testAll({num:page,pageSize});
+router.get('/video', async ctx => {
+    let { type, area: areas, style: styles, sort, desc, page, pageSize } = ctx.query;
+    testAll({ num: page, pageSize });
     test(sort, 'sort', false);
     page = parseInt(page);
     pageSize = parseInt(pageSize);
 
     let where = [];
-    if(type){
+    if (type) {
         type = parseInt(type);
         where.push(`type=${type}`);
     }
-    if(areas){
+    if (areas) {
         where.push(`areas like \"%${areas}%\"`);
     }
-    if(styles){
+    if (styles) {
         where.push(`styles like \"%${styles}%\"`);
     }
     where = where.length === 0 ? '1=1' : where.join(' and ');
     desc = desc ? 'desc' : ''; //传了逆序排列，没传正序排列
-    sort = sort === 'ranking' ? 'CAST(power(favorites*views,1/2) * POWER(rating_score/5,5) AS UNSIGNED INTEGER)':sort;
+    sort = sort === 'ranking' ? 'CAST(power(favorites*views,1/2) * POWER(rating_score/5,5) AS UNSIGNED INTEGER)' : sort;
     let order = sort ? `order by ${sort} ${desc}, views desc, favorites desc, rating_score desc` : '';
 
     let fields = [
         "img_name",
         "title",
-        "pub_date", 
+        "pub_date",
         "time_length_show",
         "media_id",
-        "favorites", 
+        "favorites",
         "views",
         "rating_score"
     ];
