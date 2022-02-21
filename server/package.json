@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV='development' node server.js",
+    "dev": "node server.js",
     "start": "npm run dev",
-    "serve": "cross-env NODE_ENV='production' node server.js",
-    "test": "cross-env NODE_ENV='production' node test",
+    "serve": "pm2 start server.js",
+    "stop": "pm2 stop server.js",
+    "list": "pm2 list",
     "craw:list": "node utils/spider/list.js",
     "craw:article": "node utils/spider/article.js"
   },
@@ -27,6 +28,7 @@
     "koa-router": "^8.0.6",
     "koa-static": "^5.0.0",
     "mysql": "^2.18.1",
+    "pm2": "^5.2.0",
     "uuid": "^3.4.0"
   },
   "dependencies": {
