@@ -40,7 +40,7 @@ export default {
             commit("setParams", { cates, page, sort, desc });
             let pageSize;
             ({ sort, desc, page, pageSize } = state);
-            let url = `api/video?${qs.stringify({ ...cates, sort, desc, page, pageSize })}`;
+            let url = `/video?${qs.stringify({ ...cates, sort, desc, page, pageSize })}`;
             if (lastUrl !== url) {
                 console.log(url);
                 commit('setMenu', null);
@@ -52,7 +52,7 @@ export default {
             }
         },
         init({ commit }) {
-            axios.get('api/video/category').then(({ data: { data } }) => {
+            axios.get('/video/category').then(({ data: { data } }) => {
                 const { cateValues, category } = data;
                 const initCates = {};
                 cateValues.forEach(cate => initCates[cate] = '');

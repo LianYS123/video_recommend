@@ -5,8 +5,8 @@ router.options('*', ctx => {
     ctx.body = { ok: true }
 })
 router.use('/api', require('./api'));
-router.use('/user', require('./user'));
-router.use('/space', auth, require('./space'));
-router.use('/article', require('./article'));
+router.use('/api/user', require('./user'));
+router.use('/api/space', auth, require('./space'));
+router.use('/api/article', require('./article'));
 
 module.exports = router.routes();

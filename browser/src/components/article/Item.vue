@@ -21,11 +21,11 @@
 							>{{tag}}</el-tag>
 							<span class="icons">
 								<span @click.stop.prevent="$emit('handlerLike')" :class="{'icon-active':like}">
-									<el-font :icon="['far','thumbs-up']" size="lg"></el-font>
+									<!-- <el-font :icon="['far','thumbs-up']" size="lg"></el-font> -->
 									<i class="icon">{{like_count}}</i>
 								</span>
 								<span :class="dislike ? 'icon icon-active' : 'icon'" @click.stop.prevent="$emit('handlerDislike')">
-									<el-font :icon="['far','thumbs-down']" size="lg"></el-font>
+									<!-- <el-font :icon="['far','thumbs-down']" size="lg"></el-font> -->
 								</span>
 							</span>
 						</div>

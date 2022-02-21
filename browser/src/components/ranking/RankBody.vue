@@ -19,7 +19,7 @@
 							<div class="img">
 								<a href="javascript:">
 									<div class="lazy-img cover">
-										<img :alt="item.title" :src="`${baseURL}/imgs/${item.img_name}`" />
+										<img :alt="item.title" :src="item.cover" />
 									</div>
 								</a>
 								<!---->
@@ -68,7 +68,7 @@
 				sort: "ranking",
 				desc: "desc"
 			};
-			let res = (await this.$axios.get(`api/video?${qs.stringify(query)}`)).data;
+			let res = (await this.$axios.get(`/video?${qs.stringify(query)}`)).data;
 			if (res.ok) {
 				this.rankItems = res.data.list.sort(
 					(a, b) => this.getScore(b) - this.getScore(a)

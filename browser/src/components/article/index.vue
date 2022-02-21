@@ -20,7 +20,7 @@
 		</el-aside>
 		<el-main style="min-width: 800px;" ref="list">
 			<el-carousel>
-				<el-carousel-item v-for="(item,index) in carousel" :key="item.id">
+				<el-carousel-item v-for="(item) in carousel" :key="item.id">
 					<router-link :to="`/home/article/${item.id}`">
 						<div :style="`width:100%;height:100%;overflow:hidden;position:relative;`">
 							<el-image style="width:100%;height:100%;" fit="cover" :src="item.img_src"></el-image>
@@ -114,9 +114,8 @@
 				return { page, page_size, category };
 			},
 			initData(params = {}) {
-				let baseURL = this.baseURL;
 				return this.$axios
-					.get(`${baseURL}/article/init?${qs.stringify(params)}`)
+					.get(`/article/init?${qs.stringify(params)}`)
 					.then(({ data: { data } }) => {
 						const { categories, ads, hots, carousel } = data;
 						this.categories = categories;
@@ -126,12 +125,11 @@
 					});
 			},
 			loadList(opts) {
-				let baseURL = this.baseURL;
 				this.loading = true;
 				this.items = null;
 
 				return this.$axios
-					.get(`${baseURL}/article?${this.getQuery(opts)}`)
+					.get(`/article?${this.getQuery(opts)}`)
 					.then(({ data: { data } }) => {
 						this.loading = false;
 						this.total = data.total;

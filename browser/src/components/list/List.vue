@@ -16,7 +16,7 @@
 			<li class="bangumi-item" v-for="(item) in menu.list" :key="item.media_id">
 				<router-link :to="`/single/media/${item.media_id}`" target="_blank" class="cover-wrapper">
 					<div class="common-lazy-img">
-						<img alt :src="`${baseURL}/imgs/${item.img_name}`" lazy="loaded" />
+						<img alt :src="item.cover" lazy="loaded" />
 					</div>
 					<div class="shadow">{{item.views|numFilter}}次播放</div>
 				

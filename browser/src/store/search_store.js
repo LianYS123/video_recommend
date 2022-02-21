@@ -18,7 +18,7 @@ export default {
     actions: {
         async loadResult({ commit,state }, {page, keyword}) { 
             commit("setParams", page);
-            let url = `api/video/search/${state.page}/10?keyword=${keyword}`;
+            let url = `/video/search/${state.page}/10?keyword=${keyword}`;
             if (lastUrl !== url) {
                 console.log(url);
                 let res = (await axios.get(url)).data;

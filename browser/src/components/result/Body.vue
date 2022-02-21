@@ -3,7 +3,7 @@
     <div class="flow-loader">
       <div>
         <div class="total-wrap">
-          <p class="total-text">共{{total}}条数据</p>
+          <p class="total-text">共{{ total }}条数据</p>
         </div>
       </div>
       <ul v-if="total">
@@ -14,16 +14,23 @@
           @click="toDetail(item.media_id)"
         >
           <div class="bangumi-item-wrap">
-            <router-link :to="`/single/media/${item.media_id}`" :title="item.title" class="left-img">
+            <router-link
+              :to="`/single/media/${item.media_id}`"
+              :title="item.title"
+              class="left-img"
+            >
               <div class="lazy-img">
-                <img alt :src="`${baseURL}/imgs/${item.img_name}`" />
+                <img alt :src="item.cover" />
               </div>
             </router-link>
             <div class="right-info">
               <div class="headline">
                 <!---->
-                <span class="bangumi-label" v-html="getSub(item.type_name)"></span>
-                <router-link 
+                <span
+                  class="bangumi-label"
+                  v-html="getSub(item.type_name)"
+                ></span>
+                <router-link
                   :to="`/single/media/${item.media_id}`"
                   title="item.title"
                   class="title"
@@ -38,20 +45,22 @@
                   </div>
                   <div class="right-block">
                     <span class="label">地区：</span>
-                    <span class="value">{{item.areas}}</span>
+                    <span class="value">{{ item.areas }}</span>
                   </div>
                 </div>
                 <div class="line clearfix">
                   <div class="left-block">
                     <span class="label">开播时间：</span>
-                    <span class="value">{{item.pub_date}}</span>
+                    <span class="value">{{ item.pub_date }}</span>
                   </div>
                   <div class="right-block">
                     <span class="label">演员：</span>
-                    <span :title="item.actors " class="value">{{item.actors}}</span>
+                    <span :title="item.actors" class="value">{{
+                      item.actors
+                    }}</span>
                   </div>
                 </div>
-                <div class="desc">{{item.evaluate}}</div>
+                <div class="desc">{{ item.evaluate }}</div>
               </div>
               <!-- <div id="pgc-navigate-wrap" class="grid">
                 <ul class="ep-box clearfix grid">
@@ -67,10 +76,10 @@
               </div>-->
               <div class="score" v-if="item.rating_score">
                 <div class="score-num">
-                  {{item.rating_score}}
+                  {{ item.rating_score }}
                   <span class="fen">分</span>
                 </div>
-                <div class="user-count">{{item.rating_count}}人点评</div>
+                <div class="user-count">{{ item.rating_count }}人点评</div>
               </div>
             </div>
           </div>
@@ -89,10 +98,10 @@
 import { mapActions, mapState, mapGetters } from "vuex";
 export default {
   async mounted() {
-    console.log(this.page,this.keyword);
+    console.log(this.page, this.keyword);
     await this.loadResult({ keyword: this.keyword, page: this.page });
   },
-  props:['keyword','page'],
+  props: ["keyword", "page"],
   methods: {
     toDetail(media_id) {
       this.$router.push(`/single/media/${media_id}`);
@@ -102,20 +111,24 @@ export default {
       let keyword = this.keyword;
       if (keyword) {
         let arr = str.split(keyword);
-        return arr.length > 1? `${arr[0]||''}<em class="keyword">${keyword||''}</em>${arr[1]||''}` : str;
+        return arr.length > 1
+          ? `${arr[0] || ""}<em class="keyword">${keyword || ""}</em>${
+              arr[1] || ""
+            }`
+          : str;
       } else {
         return "";
       }
-    }
+    },
   },
   computed: {
     ...mapState({
-      result: state => state.search_store.result
+      result: (state) => state.search_store.result,
     }),
     ...mapGetters({
-      total: "result_total"
-    })
-  }
+      total: "result_total",
+    }),
+  },
 };
 </script>
 
