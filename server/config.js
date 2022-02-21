@@ -3,10 +3,10 @@ const SERVER_PORT = 8080;
 const baseURL = process.env.NODE_ENV === 'development'
         ? `http://localhost:${SERVER_PORT}/`
         : 'http://lys.buctsnc.cn/';
-const DB_NAME = process.env.NODE_ENV === 'development' ? 'video_recommend' : 'test';
+const DB_NAME = process.env.NODE_ENV === 'development' ? 'video_recommend' : 'video_recommend';
 module.exports = {
     //db
-    DB_USER: 'lian',
+    DB_USER: 'root',
     DB_PASS: 'tb1766318380',
     DB_PORT: 3306,
     DB_NAME,

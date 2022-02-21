@@ -1,15 +1,14 @@
-const mysql = require('mysql');
-const co = require('co-mysql');
+const mysql = require('mysql2/promise');
+// const co = require('co-mysql');
 const { DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER } = require('../config')
 
-let conn = mysql.createPool({
+const db = mysql.createPool({
     database: DB_NAME,
     host: DB_HOST,
     password: DB_PASS,
     user: DB_USER,
     port: DB_PORT
 });
-let db = co(conn);
 module.exports = db;
 
 let filter = function (item) {
