@@ -11,7 +11,7 @@
     "list": "pm2 list",
     "craw:list": "node utils/spider/list.js",
     "craw:article": "node utils/spider/article.js",
-    "pub": "./pub.sh"
+    "pub": "ssh lian2 < ./pub.sh"
   },
   "keywords": [],
   "author": "",
