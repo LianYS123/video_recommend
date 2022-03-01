@@ -1,4 +1,8 @@
 const path = require("path");
+const prodConfig = require("./config.prod");
+const devConfig = require("./config.local");
+const isProduction = process.env.NODE_ENV === "production";
+const extraConfig = isProduction ? prodConfig : devConfig;
 
 module.exports = {
   //db
@@ -18,5 +22,6 @@ module.exports = {
 
   //secret
   suffix: "aasfdsflksdfkdsf",
-  secret: "aaaaaaaaaaaaaaaaaaadsfasdfa"
+  secret: "aaaaaaaaaaaaaaaaaaadsfasdfa",
+  ...extraConfig
 };

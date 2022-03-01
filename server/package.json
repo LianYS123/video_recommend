@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "cross-env NODE_ENV='development' node server.js",
     "start": "npm run dev",
-    "serve": "pm2 start server.js",
+    "serve": "cross-env NODE_ENV='production' pm2 start server.js",
     "stop": "pm2 stop server.js",
     "list": "pm2 list",
     "craw:list": "node utils/spider/list.js",
