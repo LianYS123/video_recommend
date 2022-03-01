@@ -20,8 +20,8 @@ router.get("/video/search/:page/:pageSize/", async (ctx) => {
   where = `title like \"%${keyword}%\" or styles like \"%${keyword}%\" or type_name like \"%${keyword}%\"`;
   let sql = `select * from video_info where ${where} ORDER BY views DESC limit ?,?`;
 
-  let [rows] = await ctx.db.query(sql, [(page - 1) * pageSize, pageSize]);
-  let total = await ctx.db.getCount("video_info", where);
+  let [rows] = await db.query(sql, [(page - 1) * pageSize, pageSize]);
+  let total = await db.getCount("video_info", where);
   let has_next = pageSize * (page - 1) + rows.length < total ? 1 : 0;
   ctx.body = {
     ok: true,
@@ -71,9 +71,8 @@ router.get("/video", async (ctx) => {
     : "";
 
   let sql = `select * from video_info where ${where} ${order} limit ?,?`;
-  console.log(sql);
-  let [rows] = await ctx.db.query(sql, [(page - 1) * pageSize, pageSize]);
-  let total = await ctx.db.getCount("video_info", where);
+  let [rows] = await db.query(sql, [(page - 1) * pageSize, pageSize]);
+  let total = await db.getCount("video_info", where);
   let has_next = pageSize * (page - 1) + rows.length < total ? 1 : 0;
   ctx.body = {
     ok: true,

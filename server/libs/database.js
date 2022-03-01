@@ -59,6 +59,6 @@ db.delById = async function (id, table) {
     await db.query(`delete from ${table} where id = ?`, [id])
 }
 db.getCount = async function (table, where = '1=1') {
-    let rows = await db.query(`select count(*) c from ${table} where ${where}`)
+    let [rows] = await db.query(`select count(*) c from ?? where ${where}`, [table])
     return rows[0]['c']
 }
